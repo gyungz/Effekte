@@ -6,6 +6,20 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
+from pythonosc.udp_client import SimpleUDPClient
+
+class OscPipeline:
+    def __init__(self):
+        self.client = SimpleUDPClient("127.0.0.1", 57120)
+
+    def process_item(self, item, spider):
+        word = item.get('word', '')
+        counts = item.get('letter_counts', {})
+
+        for letter, count in counts.items():
+            self.client.send_message("/fromScrapy", [letter, count])
+
+        return item
 
 
 class CounterPipeline:

@@ -65,12 +65,16 @@ ROBOTSTXT_OBEY = True
 #ITEM_PIPELINES = {
 #    "counter.pipelines.CounterPipeline": 300,
 #}
+ITEM_PIPELINES = {
+    'counter.pipelines.OscPipeline': 100,
+}
+
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True
 # The initial download delay
-#AUTOTHROTTLE_START_DELAY = 5
+AUTOTHROTTLE_START_DELAY = 1.5
 # The maximum download delay to be set in case of high latencies
 #AUTOTHROTTLE_MAX_DELAY = 60
 # The average number of requests Scrapy should be sending in parallel to
