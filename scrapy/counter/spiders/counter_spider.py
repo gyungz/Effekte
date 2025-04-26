@@ -1,20 +1,27 @@
 import scrapy
 from counter.items import CounterItem
+from collections import OrderedDict
 
 class CounterSpiderSpider(scrapy.Spider):
     name = "counter_spider"
-    allowed_domains = [""]
-    start_urls = ["https://hfm-karlsruhe.de"]
+    allowed_domains = ["wikipedia.org"]
+    start_urls = ["https://de.wikipedia.org/wiki/"]
     # custom_word = "hallo"
 
-    def __init__(self, custom_word='hallo', live_url = 'https://hfm-karlsruhe.de', *args, **kwargs):
+    def __init__(self, search_word='hallo', *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.custom_word = custom_word
-        self.live_url = live_url
+        self.search_word = search_word
+        self.url = self.start_urls[0] + search_word
+    
+    def start_requests(self):
+        yield  scrapy.http.Request(url=self.url, callback=self.parse, method='GET')
 
     def parse(self, response):
         texts = response.xpath('//text()').getall()
         text_content = ''.join(texts).lower()
-        word = self.custom_word.lower()
-        letter_counts = {char: text_content.count(char) for char in word}
+        word = self.search_word.lower()
+        letter_counts = OrderedDict()
+        for char in word:
+            letter_counts[char] = text_content.count(char)
+        # print('\n\n')
         yield CounterItem(word=word, letter_counts=letter_counts)

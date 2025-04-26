@@ -5,6 +5,7 @@
 
 
 # useful for handling different item types with a single interface
+from time import sleep
 from itemadapter import ItemAdapter
 from pythonosc.udp_client import SimpleUDPClient
 
@@ -18,9 +19,8 @@ class OscPipeline:
 
         for letter, count in counts.items():
             self.client.send_message("/fromScrapy", [letter, count])
-
-        return item
-
+            print('letter: ' + letter + '\tcount: ' + str(count))
+            # sleep(2)
 
 class CounterPipeline:
     def process_item(self, item, spider):
