@@ -56,7 +56,21 @@ Ndef(\ringModFB, { |spot = 100, bufnum = 0|
 )
 Ndef(\ringModFB).play
 
+(
+Ndef(\fb, {
+        var modCtrl = MouseY.kr(0, 220); // modulationstiefe
 
+        var ctrl = MouseX.kr(0, 1);
+
+        var modRegular = SinOsc.ar(220) * (1.0 - ctrl);
+        var modFeedback = Ndef(\fb).ar * ctrl;
+
+        var mod = (modRegular + modFeedback) * modCtrl;
+
+        var sig = SinOsc.ar(440 + mod);
+        sig;
+});
+)
 (
 Ndef(\buffFeedback, { |spot = 100, bufnum = 0|
 	var sig = PlayBuf.ar(2, bufnum, BufRateScale.kr(bufnum), startPos: spot, doneAction: Done.freeSelf);
