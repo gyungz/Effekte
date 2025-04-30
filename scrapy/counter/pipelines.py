@@ -16,11 +16,13 @@ class OscPipeline:
     def process_item(self, item, spider):
         word = item.get('word', '')
         counts = item.get('letter_counts', {})
-
+        msg = []
         for letter, count in counts.items():
-            self.client.send_message("/fromScrapy", [letter, count])
+            # self.client.send_message("/fromScrapy", [letter, count])
+            msg.append(count)
             print('letter: ' + letter + '\tcount: ' + str(count))
             # sleep(2)
+        self.client.send_message("/fromScrapy", msg)
 
 class CounterPipeline:
     def process_item(self, item, spider):
