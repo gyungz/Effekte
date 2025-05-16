@@ -11,7 +11,8 @@ from pythonosc.udp_client import SimpleUDPClient
 
 class OscPipeline:
     def __init__(self):
-        self.client = SimpleUDPClient("127.0.0.1", 57120)
+        # self.client = SimpleUDPClient("127.0.0.1", 57120)
+        self.client = SimpleUDPClient("169.254.42.234", 57120)
 
     def process_item(self, item, spider):
         word = item.get('word', '')
